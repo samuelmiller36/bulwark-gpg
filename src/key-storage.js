@@ -146,7 +146,7 @@ export async function savePrivateKey(meta, privateKeyArmored, unlockPassphrase) 
 }
 
 export function listPrivateKeys() {
-  return req(STORE_PRIVATE, "readonly", getAll).then((rows) => rows.map(({ wrapped, ...rest }) => rest));
+  return req(STORE_PRIVATE, "readonly", getAll).then((rows) => rows.map(({ wrapped: _wrapped, ...rest }) => rest));
 }
 
 export async function deletePrivateKey(fingerprint) {

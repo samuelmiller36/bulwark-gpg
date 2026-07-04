@@ -3,6 +3,8 @@
 // incoming mail (both PGP/MIME and the older "inline" armor style).
 
 const CRLF = "\r\n";
+// eslint-disable-next-line no-control-regex
+const CONTROL_RE = new RegExp("[\\u0000-\\u0008\\u000B\\u000C\\u000E-\\u001F\\u007F-\\uFFFF]", "g");
 
 // ---------------------------------------------------------------------------
 // detection
@@ -394,7 +396,7 @@ function quotedPrintable(input) {
     .split(CRLF)
     .map((line) =>
       line
-        .replace(/[=\x00-\x08\x0b\x0c\x0e-\x1f\x7f-￿]/g, (c) => {
+        .replace(CONTROL_RE, (c) => {
           const bytes = new TextEncoder().encode(c);
           return [...bytes].map((b) => "=" + b.toString(16).toUpperCase().padStart(2, "0")).join("");
         })
