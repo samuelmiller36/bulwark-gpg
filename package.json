@@ -6,13 +6,15 @@
   "scripts": {
     "build": "esbuild src/index.js --bundle --format=cjs --platform=browser --charset=utf8 --outfile=dist/index.js --external:react --external:react-dom --external:react-dom/client --external:react/jsx-runtime --external:@plugin-host",
     "dev": "npm run build -- --watch",
+    "lint": "eslint --ext .js .",
     "package": "npm run build && cp manifest.json dist/ && mkdir -p dist/media && cp -r media/* dist/media/ 2>/dev/null || true && node scripts/zip.mjs"
   },
   "dependencies": {
     "openpgp": "^6.1.0"
   },
   "devDependencies": {
-    "esbuild": "^0.24.0"
+    "esbuild": "^0.24.0",
+    "eslint": "^8.57.0"
   },
   "allowScripts": {
     "esbuild@0.24.2": true
