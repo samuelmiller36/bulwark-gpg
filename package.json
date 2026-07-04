@@ -1,10 +1,10 @@
 {
   "name": "bulwark-plugin-openpgp",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "esbuild src/index.js --bundle --format=cjs --platform=browser --charset=utf8 --outfile=dist/index.js --external:react --external:react-dom --external:react-dom/client --external:react/jsx-runtime --external:@plugin-host",
+    "build": "esbuild src/index.js --bundle --format=cjs --platform=browser --charset=utf8 --outfile=dist/index.js --alias:openpgp=./node_modules/openpgp/dist/lightweight/openpgp.mjs --external:*argon2id.mjs --external:react --external:react-dom --external:react-dom/client --external:react/jsx-runtime --external:@plugin-host",
     "dev": "npm run build -- --watch",
     "lint": "eslint --ext .js .",
     "package": "npm run build && cp manifest.json dist/ && mkdir -p dist/media && cp -r media/* dist/media/ 2>/dev/null || true && node scripts/zip.mjs"

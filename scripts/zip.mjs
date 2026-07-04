@@ -28,6 +28,15 @@ for (const f of ["manifest.json", "index.js"]) {
 }
 if (existsSync(join(DIST, "media"))) entries.push(...collect(join(DIST, "media"), "media"));
 
+// Include the readable source and build config so a reviewer can audit the
+// plugin logic and reproduce the bundled dist/index.js (which is an unminified
+// esbuild bundle of this source plus openpgp.js@6). These extra files sit
+// alongside the entrypoint and are ignored by the host loader.
+for (const f of ["package.json", "package-lock.json", "README.md"]) {
+  if (existsSync(f)) entries.push({ name: `source/${f}`, data: readFileSync(f) });
+}
+if (existsSync("src")) entries.push(...collect("src", "source/src"));
+
 const chunks = [];
 const central = [];
 let offset = 0;

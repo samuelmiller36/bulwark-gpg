@@ -101,6 +101,21 @@ Then upload `openpgp.zip` via **Admin → Plugins** in Bulwark Mail.
 React / ReactDOM are provided by the host and are marked external in the build,
 so they are not duplicated in the bundle.
 
+### Auditability / bundle notes (for reviewers)
+
+- `dist/index.js` is an **unminified** esbuild bundle of the source in `src/`
+  plus **openpgp.js 6.3.1**. The readable source and build config are shipped in
+  the package under `source/` so the bundle is reproducible (`npm ci && npm run
+  build`).
+- The build targets openpgp.js's **lightweight** entry
+  (`dist/lightweight/openpgp.mjs`), so the bundle contains **no embedded
+  WebAssembly** and **no long base64 blobs**. openpgp.js's optional Argon2 S2K
+  module (`argon2id.mjs`, the only WASM carrier) is marked external and is **not
+  shipped**: it is only ever loaded for password-based Argon2 S2K messages, which
+  this plugin's public-key mail flows never produce. The single remaining
+  `WebAssembly` token in the bundle is a string literal in openpgp.js's
+  Safari out-of-memory error check, not a WebAssembly instantiation.
+
 ## Usage
 
 1. Open **Settings → OpenPGP keys** and either **Generate a new key pair** or
