@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 120" width="320" height="120">
+  <rect width="320" height="120" rx="12" fill="#1e2a52"/>
+  <g transform="translate(28 30)">
+    <rect width="60" height="60" rx="12" fill="#3b5bdb"/>
+    <path d="M30 12a9 9 0 0 0-9 9v5h-3a3 3 0 0 0-3 3v13a3 3 0 0 0 3 3h24a3 3 0 0 0 3-3V29a3 3 0 0 0-3-3h-3v-5a9 9 0 0 0-9-9zm-5 14v-5a5 5 0 0 1 10 0v5H25z" fill="#fff"/>
+  </g>
+  <text x="108" y="56" fill="#fff" font-family="system-ui,sans-serif" font-size="26" font-weight="700">OpenPGP</text>
+  <text x="108" y="82" fill="#9db2ff" font-family="system-ui,sans-serif" font-size="14">Encrypt · Sign · Decrypt · Verify</text>
+</svg>

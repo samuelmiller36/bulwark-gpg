@@ -1,0 +1,120 @@
+{
+  "id": "openpgp",
+  "name": "OpenPGP",
+  "version": "1.1.0",
+  "author": "Bulwark Mail Community",
+  "description": "End-to-end OpenPGP (GnuPG-compatible) for webmail: generate, import, export and manage public and private keys; encrypt, decrypt and sign messages; and automatically verify signatures and decrypt incoming PGP/MIME and inline-PGP mail. Private keys are stored encrypted at rest and unlocked into memory only for the current session, so secret material never leaves your browser. Runs in the privileged (same-origin) plugin tier with a bundled openpgp.js engine.",
+  "type": "ui-extension",
+  "tier": "privileged",
+  "permissions": [
+    "crypto:full",
+    "email:blob-read",
+    "email:raw-send",
+    "email:render-takeover",
+    "email:read",
+    "email:send",
+    "ui:composer-toolbar",
+    "ui:email-banner",
+    "ui:settings-section",
+    "ui:sidebar-widget",
+    "app:lifecycle",
+    "http:fetch"
+  ],
+  "httpOrigins": [
+    "https://keys.openpgp.org"
+  ],
+  "entrypoint": "index.js",
+  "minAppVersion": "1.7.6",
+  "icon": "media/icon.svg",
+  "banner": "media/banner.svg",
+  "settingsSchema": {
+    "messageFormat": {
+      "type": "select",
+      "label": "Outgoing message format",
+      "description": "PGP/MIME (RFC 3156) is the modern standard. Inline PGP places the armor directly in the message body for compatibility with older clients, but cannot protect attachments.",
+      "default": "pgpmime",
+      "options": ["pgpmime", "inline"]
+    },
+    "defaultEncryptionAlgorithm": {
+      "type": "select",
+      "label": "Preferred symmetric cipher",
+      "description": "Session-key cipher used to encrypt message bodies. AES-256 is recommended.",
+      "default": "aes256",
+      "options": ["aes256", "aes192", "aes128"]
+    },
+    "newKeyType": {
+      "type": "select",
+      "label": "Algorithm for newly generated keys",
+      "description": "ECC (curve25519) keys are small and fast; RSA-4096 maximises compatibility with older clients.",
+      "default": "ecc",
+      "options": ["ecc", "rsa4096", "rsa2048"]
+    },
+    "signByDefault": {
+      "type": "boolean",
+      "label": "Sign outgoing mail by default",
+      "description": "When a personal key is unlocked, pre-enable the Sign toggle in the composer.",
+      "default": true
+    },
+    "encryptByDefault": {
+      "type": "boolean",
+      "label": "Encrypt outgoing mail when possible",
+      "description": "Pre-enable the Encrypt toggle when a public key is known for every recipient.",
+      "default": false
+    },
+    "autoImportSignerKeys": {
+      "type": "boolean",
+      "label": "Auto-save signer keys",
+      "description": "When an incoming signed message carries the signer's public key, remember it for future encryption.",
+      "default": true
+    },
+    "lockOnLogout": {
+      "type": "boolean",
+      "label": "Lock keys on logout",
+      "description": "Wipe all unlocked private keys from memory when you sign out or switch accounts.",
+      "default": true
+    },
+    "warnOnUnverifiedSender": {
+      "type": "boolean",
+      "label": "Warn on unverified signer",
+      "description": "Show a caution banner when a signature is valid but the signing key is not in your keyring.",
+      "default": true
+    },
+    "enableKeyserverLookup": {
+      "type": "boolean",
+      "label": "Use a public keyserver",
+      "description": "Enable the 'Find a key' tool (fetch and fingerprint-verify recipient keys from keys.openpgp.org) and the 'Publish' button (upload your own public key so others can find it). Lookups and uploads only happen when you explicitly ask; your secret key is never uploaded.",
+      "default": true
+    },
+    "keyserverUrl": {
+      "type": "text",
+      "label": "Keyserver URL",
+      "description": "Base URL of the Verifying Keyserver (VKS) used for key lookups. Defaults to keys.openpgp.org, which only publishes email addresses their owners have verified. A different host must also be added to the plugin's httpOrigins allowlist in the manifest.",
+      "default": "https://keys.openpgp.org"
+    },
+    "blockRemoteContent": {
+      "type": "boolean",
+      "label": "Block remote images & content",
+      "description": "Stop decrypted messages from loading remote images, styles and other external resources. Blocks tracking pixels and read receipts. Inline (embedded) images still display.",
+      "default": true
+    },
+    "disableExternalLinks": {
+      "type": "boolean",
+      "label": "Disable external links",
+      "description": "Render links to external websites as inert, non-clickable text to prevent accidental navigation or phishing. When off, external links open in a new tab with no referrer.",
+      "default": false
+    }
+  },
+  "locales": {
+    "en": {
+      "banner.signed_valid": "Signature valid",
+      "banner.signed_invalid": "Signature invalid",
+      "banner.signed_unknown": "Signed by an unknown key",
+      "banner.encrypted": "Encrypted message",
+      "banner.decrypted": "Decrypted",
+      "banner.locked": "Encrypted — unlock your key to read",
+      "toolbar.sign": "Sign",
+      "toolbar.encrypt": "Encrypt",
+      "settings.title": "OpenPGP keys"
+    }
+  }
+}
